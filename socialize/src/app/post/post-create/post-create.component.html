@@ -1,15 +1,23 @@
 <mat-card>
-  <mat-form-field>
-    <input matInput type="text" [(ngModel)]="title">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput type="text" [(ngModel)]="description">
-  </mat-form-field>
-  <mat-form-field>
-    <textarea matInput rows="6" [(ngModel)]="content"></textarea>
-  </mat-form-field>
-  <hr>
-  <button mat-raised-button color="primary" (click)="onAddPost()">Save Post</button>
+  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput type="text" name="title" ngModel required>
+      <mat-hint></mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input matInput type="text" name="description" ngModel>
+      <mat-hint></mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Content</mat-label>
+      <textarea matInput rows="6" name="content" ngModel required></textarea>
+      <mat-hint></mat-hint>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Save Post</button>
+    <mat-error *ngIf="err">{{err}}</mat-error>
+  </form>
 </mat-card>
 <br>
 

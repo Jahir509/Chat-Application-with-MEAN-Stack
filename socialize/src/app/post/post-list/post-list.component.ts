@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PostService } from '../post.service';
+import { Subscription } from 'rxjs';
 import { Post } from '../post.model';
 
 @Component({
@@ -6,25 +8,30 @@ import { Post } from '../post.model';
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.scss']
 })
-export class PostListComponent implements OnInit {
+export class PostListComponent implements OnInit,OnDestroy {
 
-  // posts = [
-  //   {title:'Post 1',content: "This is the first Post",description:'description 1'},
-  //   {title:'Post 2',content: "This is the second Post",description:'description 2'},
-  //   {title:'Post 3',content: "This is the third Post",description:'description 3'},
-  //   {title:'Post 4',content: "This is the fourth Post",description:'description 4'},
-  //   {title:'Post 5',content: "This is the fifth Post",description:'description 5'},
-  //   {title:'Post 6',content: "This is the sixth Post",description:'description 6'},
-  //   {title:'Post 7',content: "This is the seventh Post",description:'description 7'},
-  //   {title:'Post 8',content: "This is the eighth Post",description:'description 8'},
-  //   {title:'Post 9',content: "This is the ninth Post",description:'description 9'},
-  // ]
+  data:any;
 
-  @Input() posts: Post[] = [];
+  posts: Post[] = [];
 
-  constructor() { }
+  // @ts-ignore
+  private postsSub: Subscription;
 
-  ngOnInit(): void {
+  constructor(public postsService: PostService) {}
+
+  ngOnInit() {
+    // @ts-ignore
+    this.postsService.getPosts();
+    // this.postsSub =  this.postsService.getPosts().subscribe((data) => {
+    //   console.log(data)
+    //   this.data = data
+    // })
+    this.postsSub = this.postsService.getPostUpdateListener().subscribe((posts:Post[])=>{
+      this.posts = posts
+    })
   }
 
+  ngOnDestroy() {
+    this.postsSub.unsubscribe();
+  }
 }
