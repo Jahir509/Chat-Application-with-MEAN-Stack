@@ -55,3 +55,10 @@ app.get("/api/posts",async (req,res)=>{
 	});
 
 });
+
+app.delete("/api/posts/:id",async (req,res)=>{
+	const posts = await Post.findByIdAndDelete(req.params.id);
+	res.status(200).json({
+		message: "Posts deleted successfully!",
+	});
+});

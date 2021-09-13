@@ -29,7 +29,7 @@ export class PostCreateComponent implements OnInit {
       description:form.value.description
     };
 
-    this.postsService.addPost(post).subscribe(data=>console.log(data));
+    this.postsService.addPost(post);
     form.resetForm();
     // @ts-ignore
     this.err = null;
