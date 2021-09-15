@@ -2,9 +2,8 @@ const mongoose = require("mongoose");
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const morgan = require('morgan')
-const Post = require('./model/post');
-
+const morgan = require('morgan');
+const postRoutes = require("./routes/posts.route");
 
 
 mongoose.connect('mongodb://localhost/mean', {
@@ -13,11 +12,11 @@ mongoose.connect('mongodb://localhost/mean', {
 	dbName: 'mean'
 })
 	.then(() => {
-		console.log('Database Connection is ready...')
+		console.log('Database Connection is ready...');
 	})
 	.catch((err) => {
 		console.log(err);
-	})
+	});
 
 app.listen(3000, () => {
 	console.log("Server is running");
@@ -30,35 +29,10 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use((req,res,next)=>{
 	res.setHeader("Access-Control-Allow-Origin","*");
 	res.setHeader("Access-Control-Allow-Headers","Origin,X-Requested-With,Content-Type,Accept");
-	res.setHeader("Access-Control-Allow-Methods","GET,POST,PATCH,DELETE,OPTIONS");
+	res.setHeader("Access-Control-Allow-Methods","GET,POST,PATCH,DELETE,PUT,OPTIONS");
 	next();
 })
 
-app.post("/api/posts",async(req,res)=>{
-	const data = new Post({
-		title:req.body.title,
-		description: req.body.description ? req.body.description : '---',
-		content: req.body.content
-	});
-	const post = await data.save();
-	res.status(201).json({
-		message:'Post Added Successfully',
-		post:post
-	});
-});
+app.use("/api/posts",postRoutes);
 
-app.get("/api/posts",async (req,res)=>{
-	const posts = await Post.find();
-	res.status(200).json({
-		message: "Posts fetched successfully!",
-		posts: posts
-	});
 
-});
-
-app.delete("/api/posts/:id",async (req,res)=>{
-	const posts = await Post.findByIdAndDelete(req.params.id);
-	res.status(200).json({
-		message: "Posts deleted successfully!",
-	});
-});
