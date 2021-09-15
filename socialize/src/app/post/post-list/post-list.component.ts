@@ -11,8 +11,8 @@ import { Post } from '../post.model';
 export class PostListComponent implements OnInit,OnDestroy {
 
   data:any;
-
   posts: Post[] = [];
+  isLoading:Boolean = false
 
   // @ts-ignore
   private postsSub: Subscription;
@@ -20,13 +20,14 @@ export class PostListComponent implements OnInit,OnDestroy {
   constructor(public postsService: PostService) {}
 
   ngOnInit() {
-    // @ts-ignore
+    this.isLoading = true;
     this.postsService.getPosts();
     // this.postsSub =  this.postsService.getPosts().subscribe((data) => {
     //   console.log(data)
     //   this.data = data
     // })
     this.postsSub = this.postsService.getPostUpdateListener().subscribe((posts:Post[])=>{
+      this.isLoading = false;
       this.posts = posts
     })
   }

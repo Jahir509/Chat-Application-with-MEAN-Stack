@@ -21,6 +21,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from '../app-routing.module';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const MaterialComponents = [
   MatButtonModule,
@@ -47,7 +49,8 @@ const MaterialComponents = [
   MatIconModule,
   MatButtonModule,
   MatInputModule,
-  FormsModule
+  FormsModule,
+  MatProgressSpinnerModule
 
 ]
 
@@ -59,10 +62,11 @@ const MaterialComponents = [
     HeaderComponent,
     MaterialComponents
   ],
-  imports: [
-    CommonModule,
-    MaterialComponents
+		imports: [
+				CommonModule,
+				MaterialComponents,
+				AppRoutingModule
 
-  ],
+		],
 })
 export class MaterialModule { }
