@@ -80,7 +80,8 @@ export class PostCreateComponent implements OnInit {
         content: this.form.value.content,
         description: this.form.value.description
       };
-      this.postService.addPost(post);
+      let image = this.form.value.image;
+      this.postService.addPost(post,image);
     }
     else {
       let post: Post = {

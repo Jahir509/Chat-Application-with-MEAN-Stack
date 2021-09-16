@@ -1,35 +1,37 @@
 const express = require('express');
 const route = express.Router();
 const Post = require("../model/post");
-const multer = require('multer');
-const MimeTypeMap = {
-    'image/png':'png',
-    'image/jpeg':'jpeg',
-    'image/jpg':'jpg',
+const multer = require("multer");
+const fileTypeMap = {
+    'image/png' : 'png',
+    'image/jpeg' : 'jpeg',
+    'image/jpg' : 'jpg'
 }
 
 const storage = multer.diskStorage({
-    destination: (req,file,cb) => {
-        const isValid = MimeTypeMap[file.mimeType];
-        let error = new Error("Invalid mime type")
+    destination: function (req, file, cb) {
+        const isValid = fileTypeMap[file.mimetype];
+        let uploadError = new Error('Invalid Image Type');
         if(isValid){
-            error = null;
+            uploadError = null
         }
-        cb(error,"backend/images");
+        cb(uploadError, 'images')
     },
-    filename:(req,file,cb) => {
-        const name = file.originalname.toLowerCase().split(' ').join('-');
-        const fileExtension = MimeTypeMap[file.mimeType];
-        cb(null,name+'-'+Date.now()+'.'+fileExtension)
+    filename: function (req, file, cb) {
+        const fileName = file.originalname.split(' ').join('-');
+        const extension = fileTypeMap[file.mimetype];
+        cb(null,`${fileName}-${Date.now()}.${extension}`)
     }
-});
+})
 
 
-route.post("",multer(storage).single("image"),async(req,res)=>{
+route.post("",multer({storage:storage}).single("image"),async(req,res)=>{
+   const url = req.protocol + '://' + req.get("host");
     const data = new Post({
         title:req.body.title,
         description: req.body.description ? req.body.description : '---',
-        content: req.body.content
+        content: req.body.content,
+        imagePath: url+"/images/"+req.file.filename
     });
     const post = await data.save();
     res.status(201).json({

@@ -38,13 +38,17 @@ export class PostService {
       })
   }
 
-  addPost(post:Post) {
-
-    this.http.post('http://localhost:3000/api/posts/',post)
+  addPost(post:Post,image:File) {
+    const postData = new FormData();
+    postData.append("title",post.title);
+    postData.append("content",post.content);
+    postData.append("description",post.description);
+    postData.append("image",image);
+    this.http.post('http://localhost:3000/api/posts/',postData)
       .subscribe(responseData=>{
         // @ts-ignore
-        const postData = responseData.post
-        this.posts.push(postData)
+        const data = responseData.post
+        this.posts.push(data)
         this.postsUpdated.next([...this.posts]);
         this.router.navigate(["/"]);
       })
