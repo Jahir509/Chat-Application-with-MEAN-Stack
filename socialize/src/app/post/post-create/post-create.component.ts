@@ -21,6 +21,7 @@ export class PostCreateComponent implements OnInit {
   public buttonText: string = "Save Post";
   isLoading:Boolean = false;
   form: FormGroup;
+  imagePreview:string;
 
   constructor(private postService: PostService, private route: ActivatedRoute) {}
 
@@ -104,5 +105,10 @@ export class PostCreateComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({image: file});
     this.form.get('image').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
 }
