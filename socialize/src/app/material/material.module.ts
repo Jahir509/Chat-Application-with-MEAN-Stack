@@ -20,11 +20,13 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const MaterialComponents = [
+  ReactiveFormsModule,
+  //FormsModule,
   MatButtonModule,
   MatBadgeModule,
   MatToolbarModule,
@@ -49,7 +51,6 @@ const MaterialComponents = [
   MatIconModule,
   MatButtonModule,
   MatInputModule,
-  FormsModule,
   MatProgressSpinnerModule
 
 ]
