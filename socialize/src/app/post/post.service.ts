@@ -28,7 +28,8 @@ export class PostService {
             id:post._id,
             title:post.title,
             description:post.description,
-            content:post.content
+            content:post.content,
+            imagePath:post.imagePath
           }
         })
     }))

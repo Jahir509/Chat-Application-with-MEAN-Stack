@@ -11,6 +11,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <p>{{post.content}}</p>
+      <img [src]="post.imagePath" [alt]="post.imagePath">
       <mat-action-row>
         <a mat-raised-button color="primary" [routerLink] ="['/edit',post.id]">EDIT</a>
         <button mat-raised-button color="warn" (click)="deletePost(post.id)">DELETE</button>
