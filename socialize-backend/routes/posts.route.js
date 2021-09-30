@@ -40,13 +40,21 @@ route.post("",multer({storage:storage}).single("image"),async(req,res)=>{
     });
 });
 
-route.put("/:id",  async (req,res)=>{
+route.put("/:id",  multer({storage:storage}).single("image"),async (req,res)=>{
+    let imagePath = req.body.imagePath;
+    console.log(imagePath)
+    if(req.file){
+        const url = req.protocol + '://' + req.get("host");
+        imagePath = url+"/images/"+req.file.filename
+    }
     const data = new Post({
         _id:req.body.id,
         title:req.body.title,
         description: req.body.description ? req.body.description : '---',
-        content: req.body.content
+        content: req.body.content,
+        imagePath: imagePath
     });
+    console.log(data);
     const post = await Post.updateOne({_id:req.params.id},data);
     res.status(200).json({
         message:'Post Update Successfully',
