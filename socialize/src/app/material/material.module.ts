@@ -58,7 +58,7 @@ const MaterialComponents = [
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
   ],
   exports: [
     HeaderComponent,
@@ -67,8 +67,7 @@ const MaterialComponents = [
 		imports: [
 				CommonModule,
 				MaterialComponents,
-				AppRoutingModule
-
+				AppRoutingModule,
 		],
 })
 export class MaterialModule { }
