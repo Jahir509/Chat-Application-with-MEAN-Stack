@@ -65,10 +65,20 @@ route.put("/:id",  multer({storage:storage}).single("image"),async (req,res)=>{
 
 
 route.get("",async (req,res)=>{
-    const post = await Post.find();
+    const pageSize = +req.query.pageSize;
+    const currenPage = + req.query.page;
+    let post = [];
+    const postQuery = Post.find();
+    if(pageSize && currenPage){
+        postQuery.skip(pageSize * (currenPage - 1)).limit(pageSize)
+    }
+    post = await postQuery;
+    let totalData = await Post.count();
+    console.log(post);
     res.status(200).json({
         message: "Posts fetched successfully!",
-        posts: post
+        posts: post,
+        total:totalData
     });
 
 });

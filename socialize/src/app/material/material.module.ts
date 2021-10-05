@@ -24,6 +24,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
+
 const MaterialComponents = [
   ReactiveFormsModule,
   //FormsModule,
@@ -51,7 +52,7 @@ const MaterialComponents = [
   MatIconModule,
   MatButtonModule,
   MatInputModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
 
 ]
 
