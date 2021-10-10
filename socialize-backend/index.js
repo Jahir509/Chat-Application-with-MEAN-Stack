@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const morgan = require('morgan');
 const postRoutes = require("./routes/posts.route");
+const authRoutes = require("./routes/auth.route");
 
 
 mongoose.connect('mongodb://localhost/mean', {
@@ -36,5 +37,6 @@ app.use((req,res,next)=>{
 })
 
 app.use("/api/posts",postRoutes);
+app.use("/api/auth",authRoutes);
 
 
