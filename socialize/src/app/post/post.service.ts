@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Router} from "@angular/router";
+import {AuthService} from "../auth/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class PostService {
   private posts: Post[] = [];
   private postsUpdated = new Subject<{posts:Post[],postCount:number}>();
 
-  constructor(private http:HttpClient,private router:Router) {}
+  constructor(private http:HttpClient,private router:Router,private authService:AuthService){}
 
   getPostUpdateListener() {
     return this.postsUpdated.asObservable();
@@ -46,15 +47,16 @@ export class PostService {
   }
 
   addPost(post:Post,image:File) {
-    const postData = new FormData();
-    postData.append("title",post.title);
-    postData.append("content",post.content);
-    postData.append("description",post.description);
-    postData.append("image",image);
-    this.http.post('http://localhost:3000/api/posts/',postData)
-      .subscribe(responseData=>{
-        this.router.navigate(["/"]);
-      })
+    console.log(this.authService.getToken());
+    // const postData = new FormData();
+    // postData.append("title",post.title);
+    // postData.append("content",post.content);
+    // postData.append("description",post.description);
+    // postData.append("image",image);
+    // this.http.post('http://localhost:3000/api/posts/',postData)
+    //   .subscribe(responseData=>{
+    //     this.router.navigate(["/"]);
+    //   })
   }
 
   updatePost(post:Post,image:File|string) {
