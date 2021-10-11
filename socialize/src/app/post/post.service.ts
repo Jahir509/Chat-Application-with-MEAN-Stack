@@ -48,15 +48,15 @@ export class PostService {
 
   addPost(post:Post,image:File) {
     console.log(this.authService.getToken());
-    // const postData = new FormData();
-    // postData.append("title",post.title);
-    // postData.append("content",post.content);
-    // postData.append("description",post.description);
-    // postData.append("image",image);
-    // this.http.post('http://localhost:3000/api/posts/',postData)
-    //   .subscribe(responseData=>{
-    //     this.router.navigate(["/"]);
-    //   })
+    const postData = new FormData();
+    postData.append("title",post.title);
+    postData.append("content",post.content);
+    postData.append("description",post.description);
+    postData.append("image",image);
+    this.http.post('http://localhost:3000/api/posts/',postData)
+      .subscribe(responseData=>{
+        this.router.navigate(["/"]);
+      })
   }
 
   updatePost(post:Post,image:File|string) {
