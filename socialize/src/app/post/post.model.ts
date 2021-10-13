@@ -4,4 +4,5 @@ export interface Post {
   description?:string,
   content: string,
   imagePath?: string,
+  creator?:string
 }

@@ -31,7 +31,8 @@ export class PostService {
             title:post.title,
             description:post.description,
             content:post.content,
-            imagePath:post.imagePath
+            imagePath:post.imagePath,
+            creator:post.creator
           }
         }),
           total: postData.total
@@ -76,6 +77,7 @@ export class PostService {
         content:post.content,
         description:post.description,
         imagePath:post.imagePath,
+        creator:null
       }
     }
     this.http.put("http://localhost:3000/api/posts/" + post.id,postData)

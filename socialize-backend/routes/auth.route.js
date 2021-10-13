@@ -50,7 +50,8 @@ router.post("/login",async (req,res,next)=>{
     const token = jwt.sign({email:user.email,id:user._id},'KothinSercret',{expiresIn: "1h"})
     res.status(202).json({
         token:token,
-        expiresIn:3600
+        expiresIn:3600,
+        userId:user._id
     });
 
 })

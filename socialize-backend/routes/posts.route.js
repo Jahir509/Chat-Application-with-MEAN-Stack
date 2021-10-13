@@ -8,6 +8,7 @@ const fileTypeMap = {
     'image/jpg' : 'jpg'
 }
 const auth = require('../middleware/authentication')
+const mongoose = require("mongoose");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -36,7 +37,7 @@ route.get("",async (req,res)=>{
     }
     post = await postQuery;
     let totalData = await Post.count();
-    console.log(post);
+    // console.log(post);
     res.status(200).json({
         message: "Posts fetched successfully!",
         posts: post,
@@ -56,7 +57,8 @@ route.post("",auth,multer({storage:storage}).single("image"),async(req,res)=>{
         title:req.body.title,
         description: req.body.description ? req.body.description : '---',
         content: req.body.content,
-        imagePath: url+"/images/"+req.file.filename
+        imagePath: url+"/images/"+req.file.filename,
+        creator:req.user.id
     });
     const post = await data.save();
     res.status(201).json({
@@ -67,7 +69,7 @@ route.post("",auth,multer({storage:storage}).single("image"),async(req,res)=>{
 
 route.put("/:id",auth,  multer({storage:storage}).single("image"),async (req,res)=>{
     let imagePath = req.body.imagePath;
-    console.log(imagePath)
+    //console.log(imagePath)
     if(req.file){
         const url = req.protocol + '://' + req.get("host");
         imagePath = url+"/images/"+req.file.filename
@@ -77,19 +79,27 @@ route.put("/:id",auth,  multer({storage:storage}).single("image"),async (req,res
         title:req.body.title,
         description: req.body.description ? req.body.description : '---',
         content: req.body.content,
-        imagePath: imagePath
+        imagePath: imagePath,
+        creator:req.user.id
     });
-    console.log(data);
-    const post = await Post.updateOne({_id:req.params.id},data);
-    res.status(200).json({
-        message:'Post Update Successfully',
-        post:post
-    });
-    //console.log(req.params.id);
+    const post = await Post.updateOne({_id:req.params.id,creator:req.user.id},data);
+    if(post.modifiedCount > 0){
+        res.status(200).json({
+            message:'Post Update Successfully',
+            post:post
+        });
+    }
+    else{
+        res.status(401).json({ message: "Not authorized!" });
+    }
 });
 
 route.delete("/:id",auth,async (req,res)=>{
-    const posts = await Post.findByIdAndDelete(req.params.id);
+    const post = await Post.findOne({_id:req.params.id,creator:req.user.id});
+    if(!post){
+        res.status(401).json({ message: "Not authorized!" });
+    }
+    await Post.findOneAndRemove({_id:req.params.id,creator:req.user.id})
     res.status(200).json({
         message: "Posts deleted successfully!",
     });

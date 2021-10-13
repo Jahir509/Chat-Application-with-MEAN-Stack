@@ -54,7 +54,8 @@ export class PostCreateComponent implements OnInit {
             title: this.post.title,
             description: this.post.description,
             content: this.post.content,
-            image:this.post.imagePath
+            image:this.post.imagePath,
+            creator:this.post.creator,
           });
         });
 
