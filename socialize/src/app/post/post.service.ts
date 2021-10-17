@@ -48,7 +48,7 @@ export class PostService {
   }
 
   addPost(post:Post,image:File) {
-    console.log(this.authService.getToken());
+    // console.log(this.authService.getToken());
     const postData = new FormData();
     postData.append("title",post.title);
     postData.append("content",post.content);
