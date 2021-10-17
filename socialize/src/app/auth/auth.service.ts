@@ -33,9 +33,11 @@ export class AuthService {
   }
   createUser(email:string,password:string){
     const user:MetaUser = {email:email,password:password};
-    this.http.post("http://localhost:3000/api/auth/signup",user)
+     this.http.post("http://localhost:3000/api/auth/signup",user)
       .subscribe(response=>{
-        console.log(response);
+        this.router.navigate["/"];
+      },error=>{
+        this.authStatusListener.next(false);
       })
   }
   login(email:string,password:string){
@@ -55,6 +57,8 @@ export class AuthService {
           this.saveAuthData(token,expireDate,this.userId);
           this.router.navigate(['/']);
         }
+      },error => {
+        this.authStatusListener.next(false)
       })
   }
 

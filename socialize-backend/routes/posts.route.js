@@ -60,11 +60,20 @@ route.post("",auth,multer({storage:storage}).single("image"),async(req,res)=>{
         imagePath: url+"/images/"+req.file.filename,
         creator:req.user.id
     });
-    const post = await data.save();
-    res.status(201).json({
-        message:'Post Added Successfully',
-        post:post
-    });
+    try{
+        const post = await data.save();
+        if(!post){
+            res.status(502).json({
+                message:'Bad Gateway',
+            });
+        }
+        res.status(201).json({
+            message:'Post Added Successfully',
+            post:post
+        });
+    }catch (error) {
+        res.status(500).json({ message: 'Could not save the post' });
+    }
 });
 
 route.put("/:id",auth,  multer({storage:storage}).single("image"),async (req,res)=>{
@@ -82,27 +91,35 @@ route.put("/:id",auth,  multer({storage:storage}).single("image"),async (req,res
         imagePath: imagePath,
         creator:req.user.id
     });
-    const post = await Post.updateOne({_id:req.params.id,creator:req.user.id},data);
-    if(post.modifiedCount > 0){
-        res.status(200).json({
-            message:'Post Update Successfully',
-            post:post
-        });
-    }
-    else{
-        res.status(401).json({ message: "Not authorized!" });
+    try{
+        const post = await Post.updateOne({_id:req.params.id,creator:req.user.id},data);
+        if(post.modifiedCount > 0){
+            res.status(200).json({
+                message:'Post Update Successfully',
+                post:post
+            });
+        }
+        else{
+            res.status(401).json({ message: "Not authorized!" });
+        }
+    }catch (error) {
+        res.status(500).json({ message: 'Could not update the post' });
     }
 });
 
 route.delete("/:id",auth,async (req,res)=>{
-    const post = await Post.findOne({_id:req.params.id,creator:req.user.id});
-    if(!post){
-        res.status(401).json({ message: "Not authorized!" });
+    try{
+        const post = await Post.findOne({_id:req.params.id,creator:req.user.id});
+        if(!post){
+            res.status(401).json({ message: "Not authorized!" });
+        }
+        await Post.findOneAndRemove({_id:req.params.id,creator:req.user.id})
+        res.status(200).json({
+            message: "Posts deleted successfully!",
+        });
+    }catch (e) {
+        res.status(500).json({ message: 'Could not delete the post' })
     }
-    await Post.findOneAndRemove({_id:req.params.id,creator:req.user.id})
-    res.status(200).json({
-        message: "Posts deleted successfully!",
-    });
 });
 
 module.exports = route;

@@ -10,10 +10,13 @@ import {AuthModule} from "./auth/auth.module";
 import {FormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {AuthInterceptor} from "./auth/auth.interceptor";
+import {ErrorInterceptor} from "./error.interceptor";
+import { ErrorComponent } from './utilities/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,8 +28,10 @@ import {AuthInterceptor} from "./auth/auth.interceptor";
     AuthModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[ErrorComponent]
 })
 export class AppModule { }

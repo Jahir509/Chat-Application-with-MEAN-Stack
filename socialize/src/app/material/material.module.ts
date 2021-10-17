@@ -23,6 +23,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 const MaterialComponents = [
@@ -53,6 +54,7 @@ const MaterialComponents = [
   MatButtonModule,
   MatInputModule,
   MatProgressSpinnerModule,
+  MatDialogModule
 
 ]
 

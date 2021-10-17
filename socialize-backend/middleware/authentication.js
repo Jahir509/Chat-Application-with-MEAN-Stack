@@ -11,7 +11,7 @@ function checkAuth(req,res,next){
         next();
     }
     catch (error) {
-        res.status(400).send('Invalid Token');
+        res.status(400).send('You are not authenticated');
     }
     
 }
