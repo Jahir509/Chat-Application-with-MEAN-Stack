@@ -6,7 +6,7 @@ function checkAuth(req,res,next){
         message:"User not authorized"
     })
     try{
-        const decodedData = jwt.verify(token,'KothinSercret')
+        const decodedData = jwt.verify(token,process.env.jwt_key)
         req.user = decodedData
         next();
     }

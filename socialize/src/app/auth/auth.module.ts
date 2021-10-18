@@ -17,7 +17,6 @@ import {AuthRoutingModule} from "./auth-routing.module";
     CommonModule,
     MaterialModule,
     FormsModule,
-    AuthRoutingModule
   ]
 })
 export class AuthModule { }

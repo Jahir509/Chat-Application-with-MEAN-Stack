@@ -3,7 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {MetaUser} from "./meta-user.model";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
-
+import {environment} from "../../environments/environment";
+const backendUrl = environment.apiUrl + "auth"
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +34,7 @@ export class AuthService {
   }
   createUser(email:string,password:string){
     const user:MetaUser = {email:email,password:password};
-     this.http.post("http://localhost:3000/api/auth/signup",user)
+     this.http.post(backendUrl + "/signup",user)
       .subscribe(response=>{
         this.router.navigate["/"];
       },error=>{
@@ -42,7 +43,7 @@ export class AuthService {
   }
   login(email:string,password:string){
     const user:MetaUser = {email:email,password:password};
-    this.http.post<{token:string,expiresIn:number,userId:string}>("http://localhost:3000/api/auth/login",user)
+    this.http.post<{token:string,expiresIn:number,userId:string}>(backendUrl + "/login",user)
       .subscribe(response=>{
         const token =  response.token;
         this.token = token

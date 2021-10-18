@@ -8,7 +8,7 @@ const postRoutes = require("./routes/posts.route");
 const authRoutes = require("./routes/auth.route");
 
 
-mongoose.connect('mongodb://localhost/mean', {
+mongoose.connect(process.env.db, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 	dbName: 'mean'
