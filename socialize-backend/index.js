@@ -6,7 +6,8 @@ const app = express();
 const morgan = require('morgan');
 const postRoutes = require("./routes/posts.route");
 const authRoutes = require("./routes/auth.route");
-
+// import env variables
+require('dotenv').config()
 
 mongoose.connect(process.env.db, {
 	useNewUrlParser: true,

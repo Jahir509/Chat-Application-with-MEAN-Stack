@@ -1,6 +1,0 @@
-{
-  "env": {
-    "db": "mongodb://localhost/mean",
-    "jwt_key": "KothinSercret"
-  }
-}
