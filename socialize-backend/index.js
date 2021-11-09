@@ -21,7 +21,7 @@ mongoose.connect(process.env.db, {
 		console.log(err);
 	});
 
-app.listen(3000, () => {
+app.listen(8080, () => {
 	console.log("Server is running");
 });
 
