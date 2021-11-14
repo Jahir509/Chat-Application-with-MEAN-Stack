@@ -1,4 +1,4 @@
 {
-    "appService.defaultWebAppToDeploy": "/subscriptions/1877218e-4dc8-4202-8968-d81ea16b100d/resourceGroups/509-api/providers/Microsoft.Web/sites/Socialize",
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "appService.defaultWebAppToDeploy": "/subscriptions/1877218e-4dc8-4202-8968-d81ea16b100d/resourceGroups/DefaultResourceGroup-CUS/providers/Microsoft.Web/sites/testing-app-509"
 }
