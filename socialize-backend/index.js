@@ -20,8 +20,9 @@ mongoose.connect(process.env.db, {
 	.catch((err) => {
 		console.log(err);
 	});
-
-app.listen(process.env.PORT, () => {
+const port = process.env.PORT || 8080;
+console.log(port)
+app.listen(port, () => {
 	console.log("Server is running");
 });
 
